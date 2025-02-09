@@ -10,7 +10,7 @@ public class ConfigReader {
     private static final Properties properties = new Properties();
 
     static {
-        String resource = Paths.get("src", "test", "resources", "config", "config.properties").toString();
+        String resource = Paths.get(System.getProperty("user.dir"), ".env").toString();
         try (FileInputStream input = new FileInputStream(resource)) {
             properties.load(input);
         } catch (IOException e) {
