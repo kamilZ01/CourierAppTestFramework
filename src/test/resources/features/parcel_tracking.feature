@@ -1,5 +1,6 @@
 Feature: Parcel tracking functionality
 
+  @GUI
   Scenario Outline: Tracking a parcel by its number and verifying its status
     Given user navigates to the InPost parcel tracking page
     When user enters the parcel number "<parcelNumber>"
