@@ -29,14 +29,14 @@ public class AppHooks {
 
     @After(order = 0)
     public void quitBrowser() {
-        if (!isRestScenario) {
+        if (!isRestScenario && driver != null) {
             driver.quit();
         }
     }
 
     @After(order = 1)
     public void tearDown(Scenario scenario) {
-        if (scenario.isFailed() && !isRestScenario) {
+        if (scenario.isFailed() && !isRestScenario && driver != null) {
             String screenshotName = scenario.getName().replaceAll(" ", "_");
             byte[] sourcePath = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             scenario.attach(sourcePath, "image/png", screenshotName);
