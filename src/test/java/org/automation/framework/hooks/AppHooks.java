@@ -13,9 +13,9 @@ import org.openqa.selenium.WebDriver;
 @Getter
 public class AppHooks {
 
+    private final TagCheckerUtil tagCheckerUtil = new TagCheckerUtil();
     private Scenario scenario;
     private WebDriver driver;
-    private final TagCheckerUtil tagCheckerUtil = new TagCheckerUtil();
     private boolean isRestScenario;
 
     @Before
