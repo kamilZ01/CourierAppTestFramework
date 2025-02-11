@@ -1,9 +1,6 @@
 package org.automation.framework.utils;
 
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 
@@ -48,4 +45,11 @@ public class ElementUtil {
         return waitForElementVisible(element).getText();
     }
 
+    public boolean isElementDisplayed(WebElement element) {
+        try {
+            return waitForElementVisible(element).isDisplayed();
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
 }

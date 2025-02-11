@@ -15,6 +15,8 @@ public class FindParcelPage {
     private WebElement findButton;
     @FindBy(xpath = "//div[@class='single--status--block -active']/div[contains(@class,'message-box')]/p[contains(@class,'big')]")
     private WebElement activeStatus;
+    @FindBy(xpath = "//div[contains(@class,'parcel--statuses--errors')]//p")
+    private WebElement parcelStatusesErrorsMessage;
 
     public FindParcelPage(WebDriver driver) {
         elementUtil = new ElementUtil(driver);
@@ -30,6 +32,14 @@ public class FindParcelPage {
     }
 
     public String getParcelStatus() {
-        return elementUtil.getElementText(activeStatus);
+        return elementUtil.isElementDisplayed(activeStatus)
+                ? elementUtil.getElementText(activeStatus)
+                : "";
+    }
+
+    public String getErrorMessage() {
+        return elementUtil.isElementDisplayed(parcelStatusesErrorsMessage)
+                ? elementUtil.getElementText(parcelStatusesErrorsMessage)
+                : "";
     }
 }

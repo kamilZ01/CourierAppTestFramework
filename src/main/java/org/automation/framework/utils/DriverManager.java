@@ -23,8 +23,6 @@ public class DriverManager {
         String browser = ConfigReader.getStringProperty("browser");
         String runMode = ConfigReader.getStringProperty("run.mode");
 
-        System.out.printf("Browser value is: [%s], run mode is: [%s]\n", browser, runMode);
-
         if ("remote".equalsIgnoreCase(runMode)) {
             driver = getRemoteDriver(BrowserType.valueOf(browser.toUpperCase()));
         } else {

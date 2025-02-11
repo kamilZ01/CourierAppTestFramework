@@ -49,7 +49,9 @@ public class FindParcelPageSteps {
     public void theStatusOfTheParcelShouldBe(String expectedStatus) {
         logger.logStep("Verifying parcel status.");
         String actualStatus = findParcelPage.getParcelStatus();
+        if (actualStatus.isEmpty())
+            actualStatus = findParcelPage.getErrorMessage();
         assertEquals(expectedStatus, actualStatus, "Incorrect parcel status.");
-        logger.logInfo("Parcel has correct state.");
+        logger.logInfo("Parcel has correct state [%s].", expectedStatus);
     }
 }
