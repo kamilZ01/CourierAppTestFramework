@@ -94,4 +94,8 @@ Then, copy the report files: `docker cp <container_id>:/target/htmlreport ./html
 
 Or copy API test outputs: `docker cp <container_id>:/target/test-outputs ./test-outputs`
 
+Example:
 
+```
+docker cp $(docker ps -aq --filter "name=^courierapptestframework" | head -n 1):/app/target/htmlreport/ ./htmlReport
+```
