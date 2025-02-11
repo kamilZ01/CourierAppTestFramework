@@ -32,14 +32,15 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./.env:/app/.env
+      - ./.env.${TEST_ENV:-test}:/app/.env.${TEST_ENV:-test}
     env_file:
-      - .env
+      - ./.env.${TEST_ENV:-test}
     container_name: test-runner
     depends_on:
       - selenium-hub
       - chrome-node
       - firefox-node
     environment:
-      - test_tags=${test_tags:-}
-    command: /bin/sh -c 'mvn test -Dcucumber.filter.tags="'"$${test_tags}"'"'
+      - TEST_TAGS=${TEST_TAGS:-}
+      - TEST_ENV=${TEST_ENV:-test}
+    command: /bin/sh -c 'mvn test -Dcucumber.filter.tags="'"$${TEST_TAGS}"'"'

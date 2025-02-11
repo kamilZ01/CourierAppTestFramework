@@ -3,6 +3,7 @@ package org.automation.framework.utils;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.Properties;
 
 public class ConfigReader {
@@ -10,11 +11,15 @@ public class ConfigReader {
     private static final Properties properties = new Properties();
 
     static {
-        String resource = Paths.get(System.getProperty("user.dir"), ".env").toString();
+        String environment = Optional.ofNullable(System.getenv("TEST_ENV"))
+                .filter(env -> !env.trim().isEmpty())
+                .orElse("test");
+        String envFile = String.format(".env.%s", environment);
+        String resource = Paths.get(System.getProperty("user.dir"), envFile).toString();
         try (FileInputStream input = new FileInputStream(resource)) {
             properties.load(input);
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load config.properties");
+            throw new RuntimeException(String.format("Failed to load [%s] file", envFile), e);
         }
     }
 
