@@ -1,4 +1,4 @@
-package org.automation.framework.steps;
+package org.automation.framework.steps.gui;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
