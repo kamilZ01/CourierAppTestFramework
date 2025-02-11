@@ -88,7 +88,7 @@ If any test scenario fail, screenshots from the browser will be included in the 
 
 If running tests via Docker, you need to copy these files from the container using `docker cp`. Example:
 
-Get the container ID: `docker ps`
+Get the `courierapptestframework` container ID: `docker ps -aq --filter "name=^courierapptestframework" | head -n 1`
 
 Then, copy the report files: `docker cp <container_id>:/target/htmlreport ./htmlreport`
 
