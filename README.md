@@ -46,8 +46,9 @@ This will use the configuration from `.env.production`.
 
 ## Running Tests
 
-### Running Test Remotely (Using Selenium Grid)
+Access the CLI of your operating system (e.g. Terminal for MacOS) and navigate to the project directory.
 
+### Running Test Remotely (Using Selenium Grid)
 To run tests remotely with Docker Compose:
 
 1. **Build the Docker images**: Before running the tests, first build the Docker images by executing:
@@ -62,7 +63,6 @@ To run tests remotely with Docker Compose:
 - **Run both GUI and API tests**: `docker-compose run -e TEST_TAGS="(@GUI or @API)" tests` or `docker-compose run tests`
 
 ### Running Tests Locally
-
 To run tests locally, on your machine:
 
 1. Make sure `run.mode` is set to `local` in your `.env` file (e.g., `.env.test`).
@@ -70,9 +70,9 @@ To run tests locally, on your machine:
 3. **Running Tests Locally with Tags**: You can run tests with specific tags (e.g., only tests with the `@GUI` or `@API`
    tag).
 
-- To run only GUI tests: `mvn clean test -Dcucumber.filter.tags="(@GUI)"`
-- To run only API tests: `mvn clean test -Dcucumber.filter.tags="(@API)"`
-- To run both GUI and API tests: `mvn clean test -Dcucumber.filter.tags="(@GUI or @API)"` or `mvn clean test`
+- To run only GUI tests: `mvn clean test "-Dcucumber.filter.tags=(@GUI)"`
+- To run only API tests: `mvn clean test "-Dcucumber.filter.tags=(@API)"`
+- To run both GUI and API tests: `mvn clean test "-Dcucumber.filter.tags=(@GUI or @API)"` or `mvn clean test`
 
 Please note that browser drivers are not included as part of this framework. Browser drivers are automatically managed
 by WebDriverManager library.
@@ -86,16 +86,34 @@ by WebDriverManager library.
 
 If any test scenario fail, screenshots from the browser will be included in the report to help diagnose the issue.
 
-If running tests via Docker, you need to copy these files from the container using `docker cp`. Example:
+### Copy Test Reports from Docker Container
 
-Get the `courierapptestframework` container ID: `docker ps -aq --filter "name=^courierapptestframework" | head -n 1`
+If running tests via Docker, you need to copy these files from the container using `docker cp`.
 
-Then, copy the report files: `docker cp <container_id>:/target/htmlreport ./htmlreport`
+1. Get the `courierapptestframework` container ID
 
-Or copy API test outputs: `docker cp <container_id>:/target/test-outputs ./test-outputs`
+To retrieve the latest container ID for `courierapptestframework`, use the following command:
 
-Example:
+- **MacOS/Linux (Bash)**:
+  `docker ps -aq --filter "name=^courierapptestframework" | head -n 1`
 
+- **Windows (PowerShell)**:
+  `docker ps -aq --filter "name=^courierapptestframework" | Select-Object -First 1`
+
+2. Copy Test Reports from the Container
+
+Once you have the container ID, use docker cp to copy the necessary files:
+
+- **Copy HTML report files**: `docker cp <container_id>:/app/target/htmlreport ./htmlreport`
+- **Copy API test outputs**: `docker cp <container_id>:/app/target/test-outputs ./test-outputs`
+
+**Example: One-liner for MacOS/Linux**
 ```
 docker cp $(docker ps -aq --filter "name=^courierapptestframework" | head -n 1):/app/target/htmlreport/ ./htmlReport
+```
+
+**Example: One-liner for PowerShell (Windows)**
+
+```
+$containerId = docker ps -aq --filter "name=^courierapptestframework" | Select-Object -First 1;  docker cp $containerId":"/app/target/htmlreport/ ./htmlReport
 ```
